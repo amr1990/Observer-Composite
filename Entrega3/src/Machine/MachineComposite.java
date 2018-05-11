@@ -19,6 +19,10 @@ public class MachineComposite extends MachineComponent implements Observer {
 
     public void addComponent(MachineComponent mc) {
         componentList.add(mc);
+        mc.addObserver(this);
+        if(mc.isBroken()){
+            notifyChanges();
+        }
     }
 
     @Override
