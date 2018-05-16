@@ -62,6 +62,8 @@ public class MachineCompositeTest {
         List<Machine> machines = createOperativeMachine();
         Machine brokenMachine = new Machine();
         brokenMachine.setBroken();
+        operativeComposite.update(brokenMachine, null);
+        assertEquals(true, operativeComposite.isBroken());
         machines.add(brokenMachine);
         addComponents(operativeComposite, machines);
         assertTrue(operativeComposite.isBroken());
@@ -86,7 +88,11 @@ public class MachineCompositeTest {
     public void notifyWhenBrokenMachineIsAdded(){
         MachineComposite mc = createOperativeCompositeMachine();
         mc.addObserver(graphicInterface);
-        mc.addComponent(nonOperativeMachineCreator());
+        Machine brokenMachine = new Machine();
+        brokenMachine.setBroken();
+        mc.update(brokenMachine, null);
+        assertEquals(true, mc.isBroken());
+        mc.addComponent(brokenMachine);
         assertTrue(graphicInterface.notified);
     }
     
@@ -98,6 +104,8 @@ public class MachineCompositeTest {
         assertFalse(graphicInterface.notified);
         mc.addComponent(m);
         m.setBroken();
+        mc.update(m, null);
+        assertEquals(true, mc.isBroken());
         assertTrue(graphicInterface.notified);
     }
     
@@ -109,12 +117,6 @@ public class MachineCompositeTest {
         MachineComposite brokenCompositeMachine = createOperativeCompositeMachine();
         brokenCompositeMachine.setBroken();
         return brokenCompositeMachine;
-    }
-    
-    private Machine nonOperativeMachineCreator(){
-        Machine m = new Machine();
-        m.setBroken();
-        return m;
     }
     
     private void addComponents(MachineComposite mc, List<Machine> machines){
