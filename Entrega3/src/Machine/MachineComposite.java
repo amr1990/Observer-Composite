@@ -47,16 +47,12 @@ public class MachineComposite extends MachineComponent implements Observer {
 
     @Override
     public boolean isBroken() {
-        if(broken) {return true;}
-        for(MachineComponent mc : componentList){
-            if(mc.isBroken()){ return true;}
-        }
-        return false;
+        return broken || brokenSubComponents > 0;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        MachineComposite mc = (MachineComposite) o;
+        MachineComponent mc = (MachineComponent) o;
         if(mc.isBroken()){
             addBrokenSubComponent();
         }else{
