@@ -28,24 +28,6 @@ public class MachineComposite extends MachineComponent implements Observer {
     }
 
     @Override
-    public void setBroken() {
-        boolean wasBroken = broken;
-        broken = true;
-        if(!wasBroken){
-            notifyChanges();
-        }
-    }
-
-    @Override
-    public void repair() {
-        boolean wasBroken = broken;
-        broken = true;
-        if(wasBroken){
-            notifyChanges();
-        }
-    }
-
-    @Override
     public boolean isBroken() {
         return broken || brokenSubComponents > 0;
     }

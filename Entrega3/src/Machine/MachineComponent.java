@@ -13,9 +13,23 @@ import java.util.Observable;
  */
 public abstract class MachineComponent extends Observable {
     protected boolean broken = false;
-    public abstract void setBroken();
-    public abstract void repair();
     public abstract boolean isBroken();
+    
+    public void setBroken() {
+        boolean wasBroken = broken;
+        broken = true;
+        if(!wasBroken){
+            notifyChanges();
+        }
+    }
+
+    public void repair() {
+        boolean wasBroken = broken;
+        broken = true;
+        if(wasBroken){
+            notifyChanges();
+        }
+    }
 
     protected void notifyChanges() {
         setChanged();
