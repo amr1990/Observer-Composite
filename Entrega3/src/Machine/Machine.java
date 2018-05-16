@@ -12,12 +12,21 @@ package Machine;
 public class Machine extends MachineComponent {
     @Override
     public void setBroken() {
-        changeBrokenAndNotify(true);
+        boolean wasBroken = broken;
+        broken = true;
+        if(!wasBroken){
+            notifyChanges();
+        }
+        //changeBrokenAndNotify(true);
     }
 
     @Override
     public void repair() {
-        changeBrokenAndNotify(false);
+        boolean wasBroken = broken;
+        broken = true;
+        if(wasBroken){
+            notifyChanges();
+        }
     }
 
     @Override

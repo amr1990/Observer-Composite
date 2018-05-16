@@ -17,14 +17,6 @@ public abstract class MachineComponent extends Observable {
     public abstract void repair();
     public abstract boolean isBroken();
 
-    protected void changeBrokenAndNotify(boolean newBroken) {
-        boolean wasBroken = broken;
-        broken = newBroken;
-        if(wasBroken != broken){
-            notifyChanges();
-        }
-    }
-
     protected void notifyChanges() {
         setChanged();
         notifyObservers();
