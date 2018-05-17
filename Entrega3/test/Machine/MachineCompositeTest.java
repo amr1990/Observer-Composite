@@ -56,32 +56,11 @@ public class MachineCompositeTest {
     }
     
     @Test
-    public void testWhenBrokenMachineIsAdded(){
-        MachineComposite operativeComposite = createOperativeCompositeMachine();
-        operativeComposite.addObserver(graphicInterface);
-        List<Machine> machines = createOperativeMachine();
-        Machine brokenMachine = new Machine();
-        brokenMachine.setBroken();
-        operativeComposite.update(brokenMachine, null);
-        assertEquals(true, operativeComposite.isBroken());
-        machines.add(brokenMachine);
-        addComponents(operativeComposite, machines);
-        assertTrue(operativeComposite.isBroken());
-    }
-    
-    @Test
     public void testWhenOperativeComponentsArentBroken(){
         MachineComposite mc = createOperativeCompositeMachine();
         List<Machine> machines = createOperativeMachine();
         addComponents(mc, machines);
         assertFalse(mc.isBroken());
-    }
-    
-    private List<Machine> createOperativeMachine() {
-        List<Machine> machines = new ArrayList<>();
-        machines.add(new Machine());
-        machines.add(new Machine());
-        return machines;
     }
     
     @Test
@@ -101,12 +80,25 @@ public class MachineCompositeTest {
         MachineComposite mc = createOperativeCompositeMachine();
         mc.addObserver(graphicInterface);
         Machine m = new Machine();
-        assertFalse(graphicInterface.notified);
         mc.addComponent(m);
+        assertFalse(graphicInterface.notified);
         m.setBroken();
         mc.update(m, null);
         assertEquals(true, mc.isBroken());
         assertTrue(graphicInterface.notified);
+    }
+    
+    @Test
+    public void notifyWhenComponentIsRepairedOnABrokenComposite(){
+        MachineComposite mc = createNonOperativeCompositeMachine();
+        mc.addObserver(graphicInterface);
+        Machine m = new Machine();
+        m.setBroken();
+        mc.addComponent(m);
+        m.repair();
+        mc.update(m, null);
+        assertTrue(graphicInterface.notified);
+        assertTrue(mc.isBroken());
     }
     
     private MachineComposite createOperativeCompositeMachine(){
@@ -125,4 +117,10 @@ public class MachineCompositeTest {
         }
     }
     
+    private List<Machine> createOperativeMachine() {
+        List<Machine> machines = new ArrayList<>();
+        machines.add(new Machine());
+        machines.add(new Machine());
+        return machines;
+    }    
 }

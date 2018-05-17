@@ -15,7 +15,6 @@ import java.util.Observer;
  * @author Albert
  */
 public class MachineComposite extends MachineComponent implements Observer {
-    private boolean broken = false;
     private List<MachineComponent> componentList = new ArrayList<>();
     private int brokenSubComponents = 0;
 
@@ -36,22 +35,22 @@ public class MachineComposite extends MachineComponent implements Observer {
     public void update(Observable o, Object arg) {
         MachineComponent mc = (MachineComponent) o;
         if(mc.isBroken()){
-            addBrokenSubComponent();
+            addBrokenSubComponent(mc);
         }else{
-            addRepairedSubComponent();
+            addRepairedSubComponent(mc);
         }
     }
     
-    public void addBrokenSubComponent(){
+    public void addBrokenSubComponent(MachineComponent mc){
         brokenSubComponents += 1;
-        if(isBroken()){
+        if(mc.isBroken()){
             notifyChanges();
         }        
     }
     
-    public void addRepairedSubComponent(){
+    public void addRepairedSubComponent(MachineComponent mc){
         brokenSubComponents -= 1;
-        if(!isBroken()){
+        if(!mc.isBroken()){
             notifyChanges();
         }
     }
