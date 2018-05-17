@@ -69,9 +69,8 @@ public class MachineCompositeTest {
         mc.addObserver(graphicInterface);
         Machine brokenMachine = new Machine();
         brokenMachine.setBroken();
-        mc.update(brokenMachine, null);
-        assertEquals(true, mc.isBroken());
         mc.addComponent(brokenMachine);
+        assertEquals(true, mc.isBroken());
         assertTrue(graphicInterface.notified);
     }
     
@@ -83,7 +82,6 @@ public class MachineCompositeTest {
         mc.addComponent(m);
         assertFalse(graphicInterface.notified);
         m.setBroken();
-        mc.update(m, null);
         assertEquals(true, mc.isBroken());
         assertTrue(graphicInterface.notified);
     }
@@ -96,7 +94,6 @@ public class MachineCompositeTest {
         m.setBroken();
         mc.addComponent(m);
         m.repair();
-        mc.update(m, null);
         assertTrue(graphicInterface.notified);
         assertTrue(mc.isBroken());
     }

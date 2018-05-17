@@ -22,7 +22,10 @@ public class MachineComposite extends MachineComponent implements Observer {
         componentList.add(mc);
         mc.addObserver(this);
         if(mc.isBroken()){
-            notifyChanges();
+            brokenSubComponents += 1;
+            if(!broken && brokenSubComponents ==1){
+                notifyChanges();                
+            }
         }
     }
 
